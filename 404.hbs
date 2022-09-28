@@ -1,0 +1,37 @@
+{{> head}}
+{{> navbar}}
+   <main class="main">
+      <div class="main__left">
+         {{#checkIfAll @config.custom.uploadHero @config.custom.displayHeroImage}}
+
+            <figure class="hero">
+               <img
+                  src="{{@config.custom.uploadHero}}"
+                  {{#if @config.site.responsiveImages}}
+                     {{responsiveImageAttributes @config.custom.uploadHero}}
+                  {{/if}}
+                  {{ lazyload "eager" }}
+                  {{imageDimensions @config.custom.uploadHero}}
+                  alt="{{@config.custom.uploadHeroAlt}}">
+
+               {{#if @config.custom.uploadHeroCaption}}
+                  <figcaption class="hero__caption">
+                     {{@config.custom.uploadHeroCaption}}
+                  </figcaption>
+               {{/if}}
+            </figure>
+
+         {{/checkIfAll}}
+         <header>
+            <h1>{{ translate 'error.404' }}</h1>
+            <p>{{ translate 'error.pageNotFound' }}</p>
+         </header>
+      </div>
+      <div class="main__right">
+         <div>
+            <h2>{{ translate 'error.message1' }}</h2>
+            <p>{{ translate 'error.message2' }}</p>
+         </div>
+      </div>
+   </main>
+{{> footer}}

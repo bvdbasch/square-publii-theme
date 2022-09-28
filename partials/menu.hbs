@@ -1,0 +1,31 @@
+{{#unless level}}
+<nav class="menu">
+{{/unless}}
+    <ul{{#if level}} class="navbar__submenu" {{else}} class="navbar__menu"{{/if}}>
+        {{#each items}}
+            <li{{menuItemClasses}}>
+            {{#if link}}
+                <a 
+                href="{{menuUrl}}"
+                {{#if title}} 
+                title="{{title}}"
+                {{/if}}
+                {{#if target}} 
+                    target="{{target}}"
+                {{/if}}
+                {{#if rel}} 
+                rel="{{rel}}"
+                {{/if}}>
+                {{label}} </a>              
+            {{else}}
+               <span{{#if title}} title="{{title}}"{{/if}}>{{label}}</span>
+            {{/if}}
+            {{#if items}}
+                {{> menu}}
+            {{/if}}
+        </li>
+        {{/each}}
+    </ul>
+{{#unless level}}
+</nav>
+{{/unless}}

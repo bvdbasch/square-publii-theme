@@ -1,0 +1,102 @@
+{{> head}}
+{{> navbar}}
+   <main class="main">
+      <div class="main__left">
+         {{#tag}}
+            {{#featuredImage}}
+               {{#if url}}
+                  <figure class="hero">
+                     <img
+                        src="{{url}}"
+                        {{#if @config.site.responsiveImages}}
+                           {{responsiveImageAttributes 'tagImage' srcset sizes}}
+                        {{/if}}
+                        {{ lazyload "eager" }}
+                        height="{{height}}"
+                        width="{{width}}"
+                        alt="{{alt}}">
+
+                     {{#checkIfAny caption credits}}
+                        <figcaption class="hero__caption">
+                           {{caption}}
+                           {{credits}}
+                        </figcaption>
+                     {{/checkIfAny}}
+                  </figure>
+               {{else}}
+                  {{#checkIfAll @config.custom.uploadHero @config.custom.displayHeroImage}}
+                     <figure class="hero">
+                        <img
+                           src="{{@config.custom.uploadHero}}"
+                           {{#if @config.site.responsiveImages}}
+                              {{responsiveImageAttributes @config.custom.uploadHero}}
+                           {{/if}}
+                           {{ lazyload "eager" }}
+                           {{imageDimensions @config.custom.uploadHero}}
+                           alt="{{@config.custom.uploadHeroAlt}}">
+
+                        {{#if @config.custom.uploadHeroCaption}}
+                           <figcaption class="hero__caption">
+                              {{@config.custom.uploadHeroCaption}}
+                           </figcaption>
+                        {{/if}}
+                     </figure>
+                  {{/checkIfAll}}
+               {{/if}}
+            {{/featuredImage}}
+            <header>             
+               <h1>{{name}}
+                  <sup>({{postsNumber}})</sup>
+               </h1>
+               {{#if description}}
+                  <p>
+                     {{description}}
+                  </p>
+               {{/if}}
+            </header>
+        {{/tag}}
+      </div>
+      <div class="main__right feed tag">
+         <div>
+            {{#each posts}}
+               <article class="feed__item">
+                  <header>
+                     <h2>
+                        <a href="{{url}}">
+                           {{title}}
+                        </a>
+                     </h2>
+                     {{#checkIfAny @config.custom.listingDate @config.custom.listingAuthor}}
+                        <div class="post__meta">
+                           {{#if @config.custom.listingDate}}
+                              <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">
+                                 {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                                    {{date createdAt @config.custom.formatDate}}
+                                 {{else}}
+                                    {{date createdAt @config.custom.formatDateCustom}}
+                                 {{/checkIf}}
+                              </time>
+                           {{/if}}
+                           {{#if @config.custom.listingAuthor}}
+                              {{ translate 'common.publishedBy' }}
+                              {{#author}}
+                                 <a href="{{url}}">{{name}}</a>
+                              {{/author}}
+                           {{/if}}
+                        </div>
+                     {{/checkIfAny}}
+                  </header>
+
+                  {{#if hasCustomExcerpt}}
+                     {{{ excerpt }}}
+                  {{else}}
+                     <p>{{{ excerpt }}}</p>
+                  {{/if}}
+
+               </article>
+            {{/each}}
+            {{> pagination}}
+         </div>
+      </div>
+   </main>
+{{> footer}}

@@ -1,0 +1,113 @@
+{{> head}}
+{{> navbar}}
+<main class="main">
+   <div class="main__left">
+      {{#author}}
+         {{#featuredImage}}
+            {{#if url}}
+               <figure class="hero">
+                  <img
+                     src="{{url}}"
+                     {{#if @config.site.responsiveImages}}
+                        {{responsiveImageAttributes 'authorImage' srcset sizes}}
+                     {{/if}}
+                     {{ lazyload "eager" }}
+                     height="{{height}}"
+                     width="{{width}}"
+                     alt="{{alt}}">
+
+                  {{#checkIfAny caption credits}}
+                     <figcaption class="hero__caption">
+                        {{caption}}
+                        {{credits}}
+                     </figcaption>
+                  {{/checkIfAny}}
+               </figure>
+            {{else}}
+               {{#checkIfAll @config.custom.uploadHero @config.custom.displayHeroImage}}
+                  <figure class="hero">
+                     <img
+                        src="{{@config.custom.uploadHero}}"
+                        {{#if @config.site.responsiveImages}}
+                           {{responsiveImageAttributes @config.custom.uploadHero}}
+                        {{/if}}
+                        {{ lazyload "eager" }}
+                        {{imageDimensions @config.custom.uploadHero}}
+                        alt="{{@config.custom.uploadHeroAlt}}">
+
+                     {{#if @config.custom.uploadHeroCaption}}
+                        <figcaption class="hero__caption">
+                           {{@config.custom.uploadHeroCaption}}
+                        </figcaption>
+                     {{/if}}
+                  </figure>
+               {{/checkIfAll}}
+            {{/if}}
+         {{/featuredImage}}
+         <header>
+            <div class="author__bio">        
+               {{#if avatar}}
+                  <img
+                     src="{{avatarImage.url}}"
+                     {{ lazyload "eager" }}
+                     height="{{avatarImage.height}}"
+                     width="{{avatarImage.width}}" 
+                     class="author__thumb"
+                     alt="{{avatarImage.alt}}">
+               {{/if}}
+               <h1>{{name}}
+                  <sup>({{postsNumber}})</sup>
+               </h1>
+               {{#if description}}
+                  <p>
+                     {{description}}
+                  </p>
+               {{/if}} 
+               {{#if website}}
+               <p class="author__website">
+                  <svg height="24" width="24" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                     <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#website"/>
+                  </svg>
+                  <a href="{{website}}" target="_blank" rel="nofollow noreferrer noopener">{{ translate 'author.visitWebsite' }}</a>
+               </p>
+            {{/if}}        
+            </div>
+         </header>
+      {{/author}}
+   </div>
+   <div class="main__right feed author">
+      <div>        
+         {{#each posts}}
+            <article class="feed__item">
+               <header>
+                  <h2>
+                     <a href="{{url}}">
+                        {{title}}
+                     </a>
+                  </h2>
+                  {{#if @config.custom.listingDate}}
+                     <div class="post__meta">
+                        <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">
+                           {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                              {{date createdAt @config.custom.formatDate}}
+                           {{else}}
+                              {{date createdAt @config.custom.formatDateCustom}}
+                           {{/checkIf}}
+                        </time>                   
+                     </div>
+                  {{/if}}
+               </header>
+
+               {{#if hasCustomExcerpt}}
+                  {{{ excerpt }}}
+               {{else}}
+                  <p>{{{ excerpt }}}</p>
+               {{/if}}
+
+            </article>
+         {{/each}}
+         {{> pagination}}
+      </div>
+   </div>
+</main>
+{{> footer}}

@@ -1,0 +1,76 @@
+{{> head}}
+{{> navbar}}
+   {{#checkIf @config.custom.frontSource '==' "post" }}
+      {{> frontpage-post}}
+   {{else}}
+      <main class="main">
+         <div class="main__left">
+
+               {{#if @config.custom.uploadHero}}
+                  <figure class="hero">
+                     <img
+                        src="{{@config.custom.uploadHero}}"
+                        {{#if @config.site.responsiveImages}}
+                           {{responsiveImageAttributes @config.custom.uploadHero}}
+                        {{/if}}
+                        {{ lazyload "eager" }}
+                        {{imageDimensions @config.custom.uploadHero}}
+                        alt="{{@config.custom.uploadHeroAlt}}">
+
+                     {{#if @config.custom.uploadHeroCaption}}
+                        <figcaption class="hero__caption">
+                           {{@config.custom.uploadHeroCaption}}
+                        </figcaption>
+                     {{/if}}
+                  </figure>
+               {{/if}}
+
+            <header>
+               {{{@config.custom.textHero}}}
+            </header>
+         </div>
+         <div class="main__right feed">
+            <div>
+               {{#each posts}}
+                  <article class="feed__item">
+                     <header>
+                        <h2>
+                           <a href="{{url}}">
+                              {{title}}
+                           </a>
+                        </h2>
+                        {{#checkIfAny @config.custom.listingDate @config.custom.listingAuthor}}
+                           <div class="post__meta">
+                              {{#if @config.custom.listingDate}}
+                                 <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">
+                                    {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                                       {{date createdAt @config.custom.formatDate}}
+                                    {{else}}
+                                       {{date createdAt @config.custom.formatDateCustom}}
+                                    {{/checkIf}}
+                                 </time>
+                              {{/if}}
+                              {{#if @config.custom.listingAuthor}}
+                                 {{ translate 'common.publishedBy' }}
+                                 {{#author}}
+                                    <a href="{{url}}">{{name}}</a>
+                                 {{/author}}
+                              {{/if}}
+                           </div>
+                        {{/checkIfAny}}
+                     </header>
+
+                     {{#if hasCustomExcerpt}}
+                        {{{ excerpt }}}
+                     {{else}}
+                        <p>{{{ excerpt }}}</p>
+                     {{/if}}
+
+                  </article>
+               {{/each}}
+               {{> pagination}}
+            </div>
+         </div>
+      </main>
+   {{/checkIf}}
+{{> footer}}

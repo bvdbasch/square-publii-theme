@@ -1,0 +1,53 @@
+{{> head}}
+{{> navbar}}
+<main class="main">
+   <div class="main__left">
+      {{#checkIfAll @config.custom.uploadHero @config.custom.displayHeroImage}}
+         <figure class="hero">
+            <img
+               src="{{@config.custom.uploadHero}}"
+               {{#if @config.site.responsiveImages}}
+                  {{responsiveImageAttributes @config.custom.uploadHero}}
+               {{/if}}
+               {{ lazyload "eager" }}
+               {{imageDimensions @config.custom.uploadHero}}
+               alt="{{@config.custom.uploadHeroAlt}}">
+
+            {{#if @config.custom.uploadHeroCaption}}
+               <figcaption class="hero__caption">
+                  {{@config.custom.uploadHeroCaption}}
+               </figcaption>
+            {{/if}}
+         </figure>
+      {{/checkIfAll}}
+      <header>
+         <h1>
+            {{ translate 'tags.tagsPageTitle' }}
+            <sup>({{tagsNumber}})</sup>
+         </h1>
+         <p>
+            {{ translate 'tags.description' }}
+         </p>
+      </header>
+   </div>
+   <div class="main__right tags">
+      <div>
+         <ul class="feed tags__feed">
+            {{#each tags}}
+               <li class="feed__item">
+                  <h2>
+                     <a href="{{url}}">{{name}}</a>
+                     <sup>({{postsNumber}})</sup>
+                  </h2>
+                  {{#if description}}
+                     <p>
+                        {{description}}
+                     </p>
+                  {{/if}}
+               </li>
+            {{/each}}
+         </ul>
+      </div>
+   </div>
+</main>
+{{> footer}}

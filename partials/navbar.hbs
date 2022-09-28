@@ -1,0 +1,25 @@
+<div class="container js-container">
+   {{#if menus.mainMenu}}
+      {{> menu menus.mainMenu}}
+   {{/if}}
+   <div class="content">
+      <header class="top">
+         <div class="top__item">
+            <a class="logo" href="{{@website.url}}">
+               {{#if @website.logo}}
+                  <img src="{{@website.logo}}" alt="{{@website.name}}" width="{{@website.logoSize.width}}" height="{{@website.logoSize.height}}">
+               {{else}}
+                  {{@website.name}}
+               {{/if}}
+            </a>
+         </div>
+         <div class="top__item top__item--right">
+            {{#if menus.mainMenu}}
+              <button class="menu-toggle js-menu-toggle" aria-label="{{ translate 'partials.menu.menu' }}" aria-expanded="false">
+						<span class="menu-toggle-box">
+							<span class="menu-toggle-inner"> {{ translate 'partials.menu.menu' }}</span>
+						</span>
+					</button>
+            {{/if}}
+         </div>
+      </header>
